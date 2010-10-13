@@ -122,7 +122,7 @@ class HometapeFrame(wx.Frame):
 	
 	def dl_something(self, convert):
 		index, = self.result_list.GetSelections()
-		wc = "Flash Videos (*.flv)|*.flv" if convert else "MP3 Audio (*.mp3)|*.mp3"
+		wc = "Flash Videos (*.flv)|*.flv" if not convert else "MP3 Audio (*.mp3)|*.mp3"
 		suggested_filename = '%s - %s.%s' % (self.results[index]['artist'], self.results[index]['title'], 'mp3' if convert else 'flv')
 		save_dlg = wx.FileDialog(self, defaultDir=os.getcwd(), defaultFile=suggested_filename, wildcard=wc, style=wx.SAVE | wx.OVERWRITE_PROMPT)
 		savehere = ''
