@@ -199,7 +199,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE"""
 		info = wx.AboutDialogInfo()
 		info.SetIcon(wx.Icon(os.path.join(tools.progdir(), "hometape_slogan.png"), wx.BITMAP_TYPE_PNG))
 		info.SetName('hometape')
-		info.SetVersion('0.2')
+		info.SetVersion('0.3')
 		info.SetDescription(description)
 		info.SetCopyright('(C) 2010 Kevin Chabowski')
 		info.SetLicence(licence)
