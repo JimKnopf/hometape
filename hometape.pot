@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-14 23:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: hometape.py:66
+msgid "&About"
+msgstr ""
+
+#: hometape.py:70
+msgid "&Edit"
+msgstr ""
+
+#: hometape.py:58
+msgid "&Exit"
+msgstr ""
+
+#: hometape.py:69
+msgid "&File"
+msgstr ""
+
+#: hometape.py:71
+msgid "&Help"
+msgstr ""
+
+#: hometape.py:62
+msgid "&Preferences"
+msgstr ""
+
+#: hometape.py:88
+msgid "Artist"
+msgstr ""
+
+#: hometape.py:89
+msgid "Artist (exactly)"
+msgstr ""
+
+#: hometape.py:87
+msgid "Artist + Title"
+msgstr ""
+
+#: downloader.py:179
+msgid "Converting"
+msgstr ""
+
+#: downloader.py:187
+msgid "Done"
+msgstr ""
+
+#: hometape.py:117
+msgid "Download FLV Video"
+msgstr ""
+
+#: hometape.py:118
+msgid "Download MP3 Audio"
+msgstr ""
+
+#: downloader.py:62
+msgid "Downloading"
+msgstr ""
+
+#: downloader.py:52
+#, python-format
+msgid "Downloading \"%s\""
+msgstr ""
+
+#: hometape.py:47 hometape.py:237
+msgid "Exiting"
+msgstr ""
+
+#: config.py:62
+msgid "FFMpeg executable:"
+msgstr ""
+
+#: hometape.py:186
+msgid "Flash Video"
+msgstr ""
+
+#: hometape.py:186
+msgid "MP3 Audio"
+msgstr ""
+
+#: config.py:48 config.py:54
+msgid "Preferences"
+msgstr ""
+
+#: config.py:62
+msgid "RTMPDump executable:"
+msgstr ""
+
+#: config.py:83
+msgid "Reset"
+msgstr ""
+
+#: hometape.py:85
+msgid "Search by:"
+msgstr ""
+
+#: hometape.py:109
+msgid "Search results:"
+msgstr ""
+
+#: hometape.py:83
+msgid "Search:"
+msgstr ""
+
+#: config.py:80 config.py:113
+msgid "Some path is wrong!"
+msgstr ""
+
+#: config.py:62
+msgid "Temporary Directory:"
+msgstr ""
+
+#: hometape.py:90
+msgid "Title"
+msgstr ""
+
+#: hometape.py:91
+msgid "Title (exact)"
+msgstr ""
+
+#: downloader.py:42
+msgid "ffmpeg was not found. You need it to convert to mp3."
+msgstr ""
+
+#: hometape.py:47 hometape.py:237
+msgid "hometape can not work without a valid configuration."
+msgstr ""
+
+#: hometape.py:198
+msgid ""
+"hometape is a tool for downloading music\n"
+"videos from tape.tv."
+msgstr ""
+
+#: hometape.py:199
+msgid "hometape is licensed under the MIT license for free software."
+msgstr ""

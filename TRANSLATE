@@ -1,0 +1,21 @@
+This file describes very briefly, how to translate hometape. We presume, that
+you are familiar with the GNU gettext system and how to create translations with
+it.
+This file only describes how to create the translation templates.
+
+1. If there is not already a file called 'hometape.pot' in the main directory of
+   hometape, then you must create it. You can do this by executing the shell
+   script 'create_gettext_template.sh'.
+
+2. Create a .po file. You should execute 'init_translation.sh' with the language
+   code as the first and only parameter (e.g. if you want to create a  german
+   translation, then call "./init_translation.sh de_DE".)
+
+3. Translate the new .po file (it is located in 
+   'locale/{LANGUAGE_CODE}/LC_MESSAGES/hometape.po'.) with your favorite
+   translation tool or a text editor.
+
+4. Create the correspodenting .mo file by executing the script
+   'format_translations.sh'
+
+5. There is no step 5 :-).

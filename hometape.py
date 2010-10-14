@@ -2,11 +2,17 @@
 # -*- coding: utf-8 -*-
 
 # Main file of hometape
-
-import config, tapetv,tools
-from downloader import Downloader
 import wx
 import os, sys
+import gettext, locale
+import tools
+
+if __name__ == '__main__':
+	translator = gettext.translation('hometape', os.path.join(tools.progdir(), 'locale'), fallback=True)
+	translator.install(True)
+
+import config, tapetv
+from downloader import Downloader
 
 class HometapeFrame(wx.Frame):
 	def __init__(self):
@@ -25,7 +31,7 @@ class HometapeFrame(wx.Frame):
 				conf_dlg.Destroy()
 			else:
 				conf_dlg.Destroy()
-				fuckedup_dlg = wx.MessageDialog(None, 'hometape can not work without a valid configuration.', 'Exiting', wx.OK | wx.ICON_ERROR)
+				fuckedup_dlg = wx.MessageDialog(None, _('hometape can not work without a valid configuration.'), _('Exiting'), wx.OK | wx.ICON_ERROR)
 				fuckedup_dlg.ShowModal()
 				fuckedup_dlg.Destroy()
 				sys.exit()
@@ -36,20 +42,20 @@ class HometapeFrame(wx.Frame):
 		menubar = wx.MenuBar()
 		
 		m_file = wx.Menu()
-		m_quit = wx.MenuItem(m_file, wx.ID_EXIT, "&Exit")
+		m_quit = wx.MenuItem(m_file, wx.ID_EXIT, _("&Exit"))
 		m_file.AppendItem(m_quit)
 		
 		m_edit = wx.Menu()
-		m_preferences = wx.MenuItem(m_edit, wx.ID_PREFERENCES, "&Preferences")
+		m_preferences = wx.MenuItem(m_edit, wx.ID_PREFERENCES, _("&Preferences"))
 		m_edit.AppendItem(m_preferences)
 		
 		m_help = wx.Menu()
-		m_info = wx.MenuItem(m_help, wx.ID_ABOUT, "&About")
+		m_info = wx.MenuItem(m_help, wx.ID_ABOUT, _("&About"))
 		m_help.AppendItem(m_info)
 		
-		menubar.Append(m_file, "&File")
-		menubar.Append(m_edit, "&Edit")
-		menubar.Append(m_help, "&Help")
+		menubar.Append(m_file, _("&File"))
+		menubar.Append(m_edit, _("&Edit"))
+		menubar.Append(m_help, _("&Help"))
 		
 		self.SetMenuBar(menubar)
 		
@@ -61,15 +67,15 @@ class HometapeFrame(wx.Frame):
 		hbox1 = wx.BoxSizer(wx.HORIZONTAL)
 		
 		grid = wx.FlexGridSizer(2,2,5,5)
-		search_label = wx.StaticText(self.mainpanel, label="Search:")
+		search_label = wx.StaticText(self.mainpanel, label=_("Search:"))
 		self.search_box = wx.TextCtrl(self.mainpanel, style=wx.TE_PROCESS_ENTER)
-		search_by_label = wx.StaticText(self.mainpanel, label="Search by:")
+		search_by_label = wx.StaticText(self.mainpanel, label=_("Search by:"))
 		search_by_choices = [
-			"Artist + Title",
-			"Artist",
-			"Artist (exactly)",
-			"Title",
-			"Title (exact)"
+			_("Artist + Title"),
+			_("Artist"),
+			_("Artist (exactly)"),
+			_("Title"),
+			_("Title (exact)")
 		]
 		self.search_by_cb = wx.Choice(self.mainpanel, choices=search_by_choices)
 		grid.AddMany([
@@ -87,7 +93,7 @@ class HometapeFrame(wx.Frame):
 		hline = wx.StaticLine(self.mainpanel, style=wx.LI_HORIZONTAL)
 		vbox.Add(hline, 0, wx.ALL | wx.EXPAND, 5)
 		
-		results_cap = wx.StaticText(self.mainpanel, label="Search results:")
+		results_cap = wx.StaticText(self.mainpanel, label=_("Search results:"))
 		vbox.Add(results_cap, 0, wx.ALL | wx.EXPAND, 2)
 		
 		self.result_list = wx.ListBox(self.mainpanel, style=wx.LB_SINGLE)
@@ -95,8 +101,8 @@ class HometapeFrame(wx.Frame):
 		vbox.Add(self.result_list, 1, wx.LEFT | wx.RIGHT | wx.EXPAND, 2)
 		
 		hbox2 = wx.BoxSizer(wx.HORIZONTAL)
-		self.dl_flv = wx.Button(self.mainpanel, label="Download FLV Video")
-		self.dl_mp3 = wx.Button(self.mainpanel, label="Download MP3 Audio")
+		self.dl_flv = wx.Button(self.mainpanel, label=_("Download FLV Video"))
+		self.dl_mp3 = wx.Button(self.mainpanel, label=_("Download MP3 Audio"))
 		self.dl_flv.Disable()
 		self.dl_mp3.Disable()
 		hbox2.Add(self.dl_flv, 1, wx.RIGHT | wx.EXPAND, 5)
@@ -164,7 +170,7 @@ class HometapeFrame(wx.Frame):
 	
 	def dl_something(self, convert):
 		index, = self.result_list.GetSelections()
-		wc = "Flash Videos (*.flv)|*.flv" if not convert else "MP3 Audio (*.mp3)|*.mp3"
+		wc = _("Flash Video")+" (*.flv)|*.flv" if not convert else _("MP3 Audio")+" (*.mp3)|*.mp3"
 		suggested_filename = '%s - %s.%s' % (self.results[index]['artist'], self.results[index]['title'], 'mp3' if convert else 'flv')
 		save_dlg = wx.FileDialog(self, defaultDir=self.lastdir, defaultFile=suggested_filename, wildcard=wc, style=wx.SAVE | wx.OVERWRITE_PROMPT)
 		savehere = ''
@@ -176,8 +182,8 @@ class HometapeFrame(wx.Frame):
 			self.dldr_instances.append(Downloader(self.results[index]['id'], savehere, self.config, convert))
 	
 	def on_info(self, event):
-		description = "hometape is a tool for downloading music\nvideos from tape.tv."
-		licence = "hometape is licensed under the MIT license for free software." + """
+		description = _("hometape is a tool for downloading music\nvideos from tape.tv.")
+		licence = _("hometape is licensed under the MIT license for free software.") + """
 Copyright (c) 2010 Kevin Chabowski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -199,7 +205,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE"""
 		info = wx.AboutDialogInfo()
 		info.SetIcon(wx.Icon(os.path.join(tools.progdir(), "hometape_slogan.png"), wx.BITMAP_TYPE_PNG))
 		info.SetName('hometape')
-		info.SetVersion('0.3')
+		info.SetVersion('0.3.5')
 		info.SetDescription(description)
 		info.SetCopyright('(C) 2010 Kevin Chabowski')
 		info.SetLicence(licence)
@@ -215,7 +221,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE"""
 		else:
 			conf_dlg.Destroy()
 			self.Show(False)
-			fuckedup_dlg = wx.MessageDialog(None, 'hometape can not work without a valid configuration.', 'Exiting', wx.OK | wx.ICON_ERROR)
+			fuckedup_dlg = wx.MessageDialog(None, _('hometape can not work without a valid configuration.'), _('Exiting'), wx.OK | wx.ICON_ERROR)
 			fuckedup_dlg.ShowModal()
 			fuckedup_dlg.Destroy()
 			self.Destroy()

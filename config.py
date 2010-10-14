@@ -45,13 +45,13 @@ class ConfDlg(wx.Dialog):
 		self.config = config
 		
 		# GUI stuff
-		wx.Dialog.__init__(self, None, title="Preferences")
+		wx.Dialog.__init__(self, None, title=_("Preferences"))
 		
 		self.mainpanel = wx.Panel(self, -1)
 		vbox = wx.BoxSizer(wx.VERTICAL)
 		
 		header_font = wx.Font(pointSize=14, family=wx.FONTFAMILY_DEFAULT, weight=wx.FONTWEIGHT_BOLD, style=wx.FONTSTYLE_NORMAL, underline=False)
-		header = wx.StaticText(self.mainpanel, label="Preferences")
+		header = wx.StaticText(self.mainpanel, label=_("Preferences"))
 		header.SetFont(header_font)
 		vbox.Add(header, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 2)
 		
@@ -59,7 +59,7 @@ class ConfDlg(wx.Dialog):
 		
 		conftable = wx.FlexGridSizer(3, 2, 5, 5)
 		
-		conflabels = [ wx.StaticText(self.mainpanel, label=x) for x in ['Temporary Directory:', 'RTMPDump executable:', 'FFMpeg executable:']]
+		conflabels = [ wx.StaticText(self.mainpanel, label=x) for x in [_('Temporary Directory:'), _('RTMPDump executable:'), _('FFMpeg executable:')]]
 		self.tempdir_ctrl = BetterFilePicker(self.mainpanel, path=self.config['temp_dir'], pickdir=True)
 		self.rtmpdump_ctrl  = BetterFilePicker(self.mainpanel, path=self.config['rtmpdump_path'])
 		self.ffmpeg_ctrl  = BetterFilePicker(self.mainpanel, path=self.config['ffmpeg_path'])
@@ -77,10 +77,10 @@ class ConfDlg(wx.Dialog):
 		
 		
 		hbox = wx.BoxSizer(wx.HORIZONTAL)
-		self.alert = wx.StaticText(self.mainpanel, label="Some path is wrong!")
+		self.alert = wx.StaticText(self.mainpanel, label=_("Some path is wrong!"))
 		self.alert.SetForegroundColour(wx.Colour(255,0,0))
 		hbox.Add(self.alert, 1, wx.EXPAND, 0)
-		resetbutton = wx.Button(self.mainpanel, label="Reset")
+		resetbutton = wx.Button(self.mainpanel, label=_("Reset"))
 		hbox.Add(resetbutton, 0, wx.LEFT, 5)
 		self.closebutton = wx.Button(self.mainpanel, id=wx.ID_CLOSE)
 		hbox.Add(self.closebutton, 0, wx.LEFT, 5)
@@ -110,7 +110,7 @@ class ConfDlg(wx.Dialog):
 			self.alert.SetLabel('')
 			return True
 		else:
-			self.alert.SetLabel('Some path is wrong!')
+			self.alert.SetLabel(_('Some path is wrong!'))
 			return False
 	
 	def on_tempdir(self,event):

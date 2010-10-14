@@ -39,7 +39,7 @@ class Downloader(wx.Frame):
 		self.tmpfile = ''
 		if convert:
 			if not self.ffmpeg_path:
-				raise tools.NotFoundError('ffmpeg was not found. You needit to convert to \'%s\'.' % convert)
+				raise tools.NotFoundError(_('ffmpeg was not found. You need it to convert to mp3.'))
 			self.tmpfile = os.path.join(self.temp_dir, 'hometape_'+str(uuid4()))
 		
 		self.step = 'juststarted'
@@ -49,7 +49,7 @@ class Downloader(wx.Frame):
 		self.SPT_ffmpeg   = None
 		
 		# GUI stuff
-		wx.Frame.__init__(self, None, title="Downloading \"%s\"" % self.streaminfo['title'], size=(300, 180), style= wx.CAPTION | wx.MINIMIZE_BOX | wx.CLOSE_BOX | wx.SYSTEM_MENU)
+		wx.Frame.__init__(self, None, title=_("Downloading \"%s\"") % self.streaminfo['title'], size=(300, 180), style= wx.CAPTION | wx.MINIMIZE_BOX | wx.CLOSE_BOX | wx.SYSTEM_MENU)
 		
 		self.mainpanel = wx.Panel(self, -1)
 		hbox = wx.BoxSizer(wx.HORIZONTAL)
@@ -59,7 +59,7 @@ class Downloader(wx.Frame):
 		
 		vbox = wx.BoxSizer(wx.VERTICAL)
 		
-		self.status = wx.StaticText(self.mainpanel, label="Downloading")
+		self.status = wx.StaticText(self.mainpanel, label=_("Downloading"))
 		vbox.Add(self.status, 1, wx.LEFT | wx.RIGHT | wx.TOP | wx.EXPAND | wx.ALIGN_TOP, 2)
 		
 		vbox.Add((-1,8))
@@ -70,7 +70,7 @@ class Downloader(wx.Frame):
 		
 		vbox.Add((-1,8))
 		
-		self.quit_btn = wx.Button(self.mainpanel, pos=(2, 90), size=(296, 28), label="Cancel")
+		self.quit_btn = wx.Button(self.mainpanel, pos=(2, 90), size=(296, 28), id=wx.ID_CANCEL)
 		vbox.Add(self.quit_btn, 0, wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_HORIZONTAL, 2)
 		
 		hbox.Add(vbox, 1, wx.EXPAND, 0)
@@ -176,7 +176,7 @@ class Downloader(wx.Frame):
 				else:
 					self.step = 'done'
 		elif self.step == 'converting':
-			self.status.SetLabel('Converting')
+			self.status.SetLabel(_('Converting'))
 			if not self.SPT_ffmpeg.running:
 				try:
 					os.remove(self.tmpfile)
@@ -184,7 +184,7 @@ class Downloader(wx.Frame):
 					pass
 				self.step = 'done'
 		else: # done
-			self.status.SetLabel('Done')
+			self.status.SetLabel(_('Done'))
 			self.gauge.SetValue(1000)
 			self.maintimer.Stop()
 
