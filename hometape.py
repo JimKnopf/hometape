@@ -13,6 +13,7 @@ class HometapeFrame(wx.Frame):
 		# Load our configuration
 		self.config = config.read_conf()
 		
+		self.lastdir = os.getcwd()
 		self.dldr_instances = []
 		self.results = []
 		
@@ -124,12 +125,13 @@ class HometapeFrame(wx.Frame):
 		index, = self.result_list.GetSelections()
 		wc = "Flash Videos (*.flv)|*.flv" if not convert else "MP3 Audio (*.mp3)|*.mp3"
 		suggested_filename = '%s - %s.%s' % (self.results[index]['artist'], self.results[index]['title'], 'mp3' if convert else 'flv')
-		save_dlg = wx.FileDialog(self, defaultDir=os.getcwd(), defaultFile=suggested_filename, wildcard=wc, style=wx.SAVE | wx.OVERWRITE_PROMPT)
+		save_dlg = wx.FileDialog(self, defaultDir=self.lastdir, defaultFile=suggested_filename, wildcard=wc, style=wx.SAVE | wx.OVERWRITE_PROMPT)
 		savehere = ''
 		if save_dlg.ShowModal() == wx.ID_OK:
 			savehere = save_dlg.GetPath()
 		save_dlg.Destroy()
 		if savehere:
+			self.lastdir = os.path.dirname(savehere)
 			self.dldr_instances.append(Downloader(self.results[index]['id'], savehere, self.config, convert))
 	
 	def on_info(self, event):
