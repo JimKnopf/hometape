@@ -67,6 +67,20 @@ class HometapeFrame(wx.Frame):
 		hbox1.Add(search_btn, 0, wx.LEFT, 2)
 		vbox.Add(hbox1, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM | wx.EXPAND, 2)
 		
+		hbox2_5 = wx.BoxSizer(wx.HORIZONTAL)
+		search_by_label = wx.StaticText(self.mainpanel, label="Search by:")
+		search_by_choices = [
+			"Artist + Title",
+			"Artist",
+			"Artist (exactly)",
+			"Title",
+			"Title (exact)"
+		]
+		self.search_by_cb = wx.Choice(self.mainpanel, choices=search_by_choices)
+		hbox2_5.Add(search_by_label, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+		hbox2_5.Add(self.search_by_cb, 1, wx.EXPAND | wx.LEFT, 5)
+		vbox.Add(hbox2_5, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM | wx.EXPAND, 2)
+		
 		hline = wx.StaticLine(self.mainpanel, style=wx.LI_HORIZONTAL)
 		vbox.Add(hline, 0, wx.ALL | wx.EXPAND, 5)
 		
