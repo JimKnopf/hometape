@@ -6,7 +6,7 @@
 import config, tapetv,tools
 from downloader import Downloader
 import wx
-import os
+import os, sys
 
 class HometapeFrame(wx.Frame):
 	def __init__(self):
@@ -17,9 +17,18 @@ class HometapeFrame(wx.Frame):
 		self.dldr_instances = []
 		self.results = []
 		
+		# Force User to input a valid config
 		if not ( self.config['temp_dir'] and self.config['rtmpdump_path'] and self.config['ffmpeg_path'] ):
-			# We must show an error here and quit the application.
-			pass
+			conf_dlg = config.ConfDlg(self.config)
+			if conf_dlg.ShowModal() == wx.ID_OK:
+				self.config = conf_dlg.getconf()
+				conf_dlg.Destroy()
+			else:
+				conf_dlg.Destroy()
+				fuckedup_dlg = wx.MessageDialog(None, 'hometape can not work without a valid configuration.', 'Exiting', wx.OK | wx.ICON_ERROR)
+				fuckedup_dlg.ShowModal()
+				fuckedup_dlg.Destroy()
+				sys.exit()
 		
 		# All the GUI stuff
 		wx.Frame.__init__(self, None, title="hometape",size=(300,500))
@@ -29,11 +38,17 @@ class HometapeFrame(wx.Frame):
 		m_file = wx.Menu()
 		m_quit = wx.MenuItem(m_file, wx.ID_EXIT, "&Exit")
 		m_file.AppendItem(m_quit)
+		
+		m_edit = wx.Menu()
+		m_preferences = wx.MenuItem(m_edit, wx.ID_PREFERENCES, "&Preferences")
+		m_edit.AppendItem(m_preferences)
+		
 		m_help = wx.Menu()
 		m_info = wx.MenuItem(m_help, wx.ID_ABOUT, "&About")
 		m_help.AppendItem(m_info)
 		
 		menubar.Append(m_file, "&File")
+		menubar.Append(m_edit, "&Edit")
 		menubar.Append(m_help, "&Help")
 		
 		self.SetMenuBar(menubar)
@@ -72,13 +87,20 @@ class HometapeFrame(wx.Frame):
 		vbox.Add(hbox2, 0, wx.EXPAND | wx.ALL, 2)
 		
 		vbox.Fit(self)
+		
 		self.mainpanel.SetSizer(vbox)
 		self.SetMinSize(self.GetSize())
+		
+		try:
+			self.SetSize(self.config['last_size'])
+		except KeyError:
+			pass
 		
 		self.SetIcon(wx.Icon(os.path.join(tools.progdir(), "wm_icon.png"), wx.BITMAP_TYPE_PNG))
 		
 		# Events
 		self.Bind(wx.EVT_MENU, self.on_info, id=m_info.GetId())
+		self.Bind(wx.EVT_MENU, self.on_prefs, id=m_preferences.GetId())
 		self.Bind(wx.EVT_MENU, self.on_close, id=m_quit.GetId())
 		self.Bind(wx.EVT_CLOSE, self.on_close)
 		self.Bind(wx.EVT_BUTTON, self.on_search, id=search_btn.GetId())
@@ -93,6 +115,8 @@ class HometapeFrame(wx.Frame):
 				dldr.Close()
 			except:
 				continue
+		self.config['last_size'] = self.GetSize()
+		config.save_conf(self.config)
 		self.Show(False)
 		self.Destroy()
 	
@@ -158,13 +182,26 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE"""
 		info = wx.AboutDialogInfo()
 		info.SetIcon(wx.Icon(os.path.join(tools.progdir(), "hometape_slogan.png"), wx.BITMAP_TYPE_PNG))
 		info.SetName('hometape')
-		info.SetVersion('0.1')
+		info.SetVersion('0.2')
 		info.SetDescription(description)
 		info.SetCopyright('(C) 2010 Kevin Chabowski')
 		info.SetLicence(licence)
 		info.AddDeveloper('Kevin Chabowski')
 		
 		wx.AboutBox(info)
+	
+	def on_prefs(self, event):
+		conf_dlg = config.ConfDlg(self.config)
+		if conf_dlg.ShowModal() == wx.ID_OK:
+			self.config = conf_dlg.getconf()
+			conf_dlg.Destroy()
+		else:
+			conf_dlg.Destroy()
+			self.Show(False)
+			fuckedup_dlg = wx.MessageDialog(None, 'hometape can not work without a valid configuration.', 'Exiting', wx.OK | wx.ICON_ERROR)
+			fuckedup_dlg.ShowModal()
+			fuckedup_dlg.Destroy()
+			self.Destroy()
 
 
 if __name__ == '__main__':

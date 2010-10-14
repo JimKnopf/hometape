@@ -62,4 +62,4 @@ class BetterFilePicker(wx.Panel):
 	
 	def SetPath(self, path):
 		self.__path = path
-		self.textbox.SetValue()
+		self.textbox.SetValue(path)

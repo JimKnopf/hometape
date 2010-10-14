@@ -188,8 +188,3 @@ class Downloader(wx.Frame):
 			self.gauge.SetValue(1000)
 			self.maintimer.Stop()
 
-
-if __name__ == '__main__':
-	app = wx.App()
-	ourframe = Downloader(7350, 'loser.mp3', {'temp_dir': '.', 'rtmpdump_path': 'rtmpdump', 'ffmpeg_path': 'ffmpeg'},True)
-	app.MainLoop()

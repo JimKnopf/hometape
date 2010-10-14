@@ -39,19 +39,19 @@ def save_conf(conf):
 	pickle.dump(conf, open(tools.homefile('.hometape.pickle'), 'wb'))
 
 # This Config dialog is buggy, so we do not use it now. Only default configuration...
-class ConfDlg(wx.Frame):
-	def __init__(self):
+class ConfDlg(wx.Dialog):
+	def __init__(self, config):
 		# Read out config file
-		self.config = read_conf()
+		self.config = config
 		
 		# GUI stuff
-		wx.Frame.__init__(self, None, title="Configuration")
+		wx.Dialog.__init__(self, None, title="Preferences")
 		
 		self.mainpanel = wx.Panel(self, -1)
 		vbox = wx.BoxSizer(wx.VERTICAL)
 		
 		header_font = wx.Font(pointSize=14, family=wx.FONTFAMILY_DEFAULT, weight=wx.FONTWEIGHT_BOLD, style=wx.FONTSTYLE_NORMAL, underline=False)
-		header = wx.StaticText(self.mainpanel, label="Configuration")
+		header = wx.StaticText(self.mainpanel, label="Preferences")
 		header.SetFont(header_font)
 		vbox.Add(header, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 2)
 		
@@ -79,9 +79,11 @@ class ConfDlg(wx.Frame):
 		hbox = wx.BoxSizer(wx.HORIZONTAL)
 		self.alert = wx.StaticText(self.mainpanel, label="Some path is wrong!")
 		self.alert.SetForegroundColour(wx.Colour(255,0,0))
-		hbox.Add(self.alert, 1, wx.ALIGN_CENTER_VERTICAL | wx.EXPAND, 0)
+		hbox.Add(self.alert, 1, wx.EXPAND, 0)
+		resetbutton = wx.Button(self.mainpanel, label="Reset")
+		hbox.Add(resetbutton, 0, wx.LEFT, 5)
 		self.closebutton = wx.Button(self.mainpanel, id=wx.ID_CLOSE)
-		hbox.Add(self.closebutton, 0, wx.LEFT | wx.ALIGN_RIGHT, 5)
+		hbox.Add(self.closebutton, 0, wx.LEFT, 5)
 		vbox.Add(hbox, 0, wx.LEFT | wx.RIGHT | wx.EXPAND, 2)
 		
 		vbox.Fit(self)
@@ -94,19 +96,22 @@ class ConfDlg(wx.Frame):
 		self.Bind(wx.EVT_FILEPICKER_CHANGED, self.on_tempdir, id=self.tempdir_ctrl.GetId())
 		self.Bind(wx.EVT_FILEPICKER_CHANGED, self.on_rtmpdump, id=self.rtmpdump_ctrl.GetId())
 		self.Bind(wx.EVT_FILEPICKER_CHANGED, self.on_ffmpeg, id=self.ffmpeg_ctrl.GetId())
+		self.Bind(wx.EVT_BUTTON, self.on_reset, id=resetbutton.GetId())
 		self.Bind(wx.EVT_BUTTON, self.on_close, id=self.closebutton.GetId())
 		self.Bind(wx.EVT_CLOSE, self.on_close)
 		
-		self.Show()
 		self.isokay()
 	
+	def getconf(self):
+		return self.config
+	
 	def isokay(self):
-		if self.config['temp_dir'] != '' and self.config['rtmpdump_path'] and self.config['ffmpeg_path']:
-			self.alert.Show(False)
-			self.closebutton.Enable()
+		if self.config['temp_dir'] and self.config['rtmpdump_path'] and self.config['ffmpeg_path']:
+			self.alert.SetLabel('')
+			return True
 		else:
-			self.alert.Show(True)
-			self.closebutton.Disable()
+			self.alert.SetLabel('Some path is wrong!')
+			return False
 	
 	def on_tempdir(self,event):
 		if os.path.isdir(self.tempdir_ctrl.GetPath()):
@@ -129,14 +134,14 @@ class ConfDlg(wx.Frame):
 			self.config['ffmpeg_path'] = ''
 		self.isokay()
 	
+	def on_reset(self, event):
+		self.config = make_default()
+		self.tempdir_ctrl.SetPath(self.config['temp_dir'])
+		self.rtmpdump_ctrl.SetPath(self.config['rtmpdump_path'])
+		self.ffmpeg_ctrl.SetPath(self.config['ffmpeg_path'])
+		self.isokay()
+	
 	def on_close(self, event):
-		if not (self.config['temp_dir'] and self.config['rtmpdump_path'] and self.config['ffmpeg_path']):
-			event.Veto()
-		else:
-			self.Show(False)
-			self.Destroy()
+		self.Show(False)
+		self.EndModal(wx.ID_OK if self.isokay() else wx.ID_CANCEL)
 
-if __name__ == '__main__':
-	app = wx.App()
-	mf = ConfDlg()
-	app.MainLoop()

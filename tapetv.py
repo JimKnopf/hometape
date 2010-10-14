@@ -109,5 +109,3 @@ def streaminfo(video_id):
 	# If we got this far, the correct video was not found, so:
 	return None
 
-if __name__ == '__main__':
-	print streaminfo(search('beck')[0]['id'])
