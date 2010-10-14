@@ -28,11 +28,16 @@ def _download_and_parse_xml(url, params):
 	except:
 		return None
 
-def search(query):
+def search(query, filterby):
 	"""Searching music videos in the tape.tv database.
 	
 	query -- Search for this
-	
+	filterby -- One of these:
+	            0 - Artist + Title
+	            1 - Title
+	            2 - Title (exact)
+	            3 - Title
+	            4 - Title (exact)
 	
 	Returns a list of dictionaries which have these following keys:
 	'id', 'artist', 'title'"""
@@ -61,7 +66,14 @@ def search(query):
 		except:
 			continue
 	
-	return videos
+	filters = [
+		lambda x: True,
+		lambda x: x['artist'].lower().find(query.lower()) != -1,
+		lambda x: x['artist'].lower() == query.lower(),
+		lambda x: x['title'].lower().find(query.lower()) != -1,
+		lambda x: x['title'].lower() == query.lower()
+	]
+	return filter(filters[filterby], videos)
 
 def streaminfo(video_id):
 	"""Get informations about the stream for the video,which has the id video_id.

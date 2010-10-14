@@ -142,7 +142,7 @@ class HometapeFrame(wx.Frame):
 		if len(self.search_box.GetValue()) >= 2:
 			# Querying tape.tv
 			wx.BeginBusyCursor()
-			self.results = tapetv.search(self.search_box.GetValue())
+			self.results = tapetv.search(self.search_box.GetValue(), self.search_by_cb.GetCurrentSelection())
 			result_formatted = ["%s - %s" % (r['artist'],r['title']) for r in self.results]
 			self.result_list.Set(result_formatted)
 			wx.EndBusyCursor()
