@@ -27,7 +27,7 @@ class HometapeFrame(wx.Frame):
 		menubar = wx.MenuBar()
 		
 		m_file = wx.Menu()
-		m_quit = wx.MenuItem(m_file, wx.ID_EXIT, "&Quit")
+		m_quit = wx.MenuItem(m_file, wx.ID_EXIT, "&Exit")
 		m_file.AppendItem(m_quit)
 		m_help = wx.Menu()
 		m_info = wx.MenuItem(m_help, wx.ID_ABOUT, "&About")
@@ -46,7 +46,7 @@ class HometapeFrame(wx.Frame):
 		hbox1 = wx.BoxSizer(wx.HORIZONTAL)
 		search_label = wx.StaticText(self.mainpanel, label="Search:")
 		self.search_box = wx.TextCtrl(self.mainpanel, style=wx.TE_PROCESS_ENTER)
-		search_btn = wx.Button(self.mainpanel, label="Search")
+		search_btn = wx.Button(self.mainpanel, id=wx.ID_FIND)
 		hbox1.Add(search_label, 0, wx.RIGHT | wx.ALIGN_CENTER_VERTICAL, 2)
 		hbox1.Add(self.search_box, 1, wx.LEFT | wx.RIGHT | wx.EXPAND, 5)
 		hbox1.Add(search_btn, 0, wx.LEFT, 2)
