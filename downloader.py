@@ -41,7 +41,6 @@ class Downloader(wx.Frame):
 			if not self.ffmpeg_path:
 				raise tools.NotFoundError('ffmpeg was not found. You needit to convert to \'%s\'.' % convert)
 			self.tmpfile = os.path.join(self.temp_dir, 'hometape_'+str(uuid4()))
-
 		
 		self.step = 'juststarted'
 		
@@ -53,6 +52,11 @@ class Downloader(wx.Frame):
 		wx.Frame.__init__(self, None, title="Downloading \"%s\"" % self.streaminfo['title'], size=(300, 180), style= wx.CAPTION | wx.MINIMIZE_BOX | wx.CLOSE_BOX | wx.SYSTEM_MENU)
 		
 		self.mainpanel = wx.Panel(self, -1)
+		hbox = wx.BoxSizer(wx.HORIZONTAL)
+		
+		img_panel = wx.Panel(self.mainpanel, -1)
+		hbox.Add(img_panel, 0, wx.ALL | wx.EXPAND, 2)
+		
 		vbox = wx.BoxSizer(wx.VERTICAL)
 		
 		self.status = wx.StaticText(self.mainpanel, label="Downloading")
@@ -69,9 +73,33 @@ class Downloader(wx.Frame):
 		self.quit_btn = wx.Button(self.mainpanel, pos=(2, 90), size=(296, 28), label="Cancel")
 		vbox.Add(self.quit_btn, 0, wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_HORIZONTAL, 2)
 		
-		vbox.Fit(self)
+		hbox.Add(vbox, 1, wx.EXPAND, 0)
 		
-		self.mainpanel.SetSizer(vbox)
+		hbox.Fit(self)
+		
+		# Download and resize video image
+		tmpfile = os.path.join(config['temp_dir'], 'hometape_'+str(uuid4()))
+		try:
+			url = urllib2.urlopen(self.streaminfo['image'])
+			fh = open(tmpfile, 'wb')
+			fh.write(url.read())
+			fh.close()
+			url.close()
+			imh = wx.Image(tmpfile, wx.BITMAP_TYPE_PNG if self.streaminfo['image'].split('.')[-1] == 'png' else wx.BITMAP_TYPE_JPEG)
+			os.remove(tmpfile)
+			w = imh.GetWidth()
+			h = imh.GetHeight()
+			ww,wh = self.GetSize()
+			w /= h/wh
+			imh.Rescale(w,wh)
+			video_bitmap = wx.StaticBitmap(img_panel)
+			video_bitmap.SetBitmap(wx.BitmapFromImage(imh))
+			img_panel.SetMinSize((w,wh))
+			hbox.Fit(self)
+		except:
+			pass
+		
+		self.mainpanel.SetSizer(hbox)
 		
 		# Timer
 		self.maintimer = wx.Timer(self)
