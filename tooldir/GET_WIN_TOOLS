@@ -1,0 +1,16 @@
+This directory can contain the needed tools for Windows.
+
+The .exe file will be in the directory 'tooldir/{PROGRAM_NAME}/bin/{TOOL_EXE}'.
+
+You can download rtmpdump from:
+	Homepage:
+		http://rtmpdump.mplayerhq.hu/
+	Direct download link:
+		http://rtmpdump.mplayerhq.hu/download/rtmpdump-2.3-windows.zip
+
+You can download ffmpeg from:
+	Homepage:
+		http://ffmpeg.arrozcru.org/
+	Direct download link:
+		http://ffmpeg.arrozcru.org/autobuilds/ffmpeg-latest-mingw32-static.7z
+
