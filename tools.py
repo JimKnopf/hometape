@@ -25,12 +25,15 @@ def findapp(appname, additional_paths=[]):
 	Raises tools.NotFoundError if the application was not found.
 	"""
 	# building our search list
-	searchlist = os.environ['PATH'].split(':')
+	searchlist = os.environ['PATH'].split(';' if os.name == 'nt' else':')
 	searchlist.append(progdir())
 	searchlist += additional_paths
 	
 	for path in searchlist:
-		for fn in os.listdir(path):
-			if fn == appname:
-				return os.path.join(path,fn)
+		try:
+			for fn in os.listdir(path):
+				if fn == appname:
+					return os.path.join(path,fn)
+		except:
+			continue
 	raise NotFoundError('\'%s\' was not found.')

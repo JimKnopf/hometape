@@ -70,10 +70,12 @@ class Downloader(wx.Frame):
 		
 		vbox.Add((-1,8))
 		
-		self.quit_btn = wx.Button(self.mainpanel, pos=(2, 90), size=(296, 28), id=wx.ID_CANCEL)
+		self.quit_btn = wx.Button(self.mainpanel, pos=(2, 90), size=(300, -1), id=wx.ID_CANCEL, label=_("Close"))
 		vbox.Add(self.quit_btn, 0, wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_HORIZONTAL, 2)
 		
 		hbox.Add(vbox, 1, wx.EXPAND, 0)
+		
+		self.mainpanel.SetSizer(hbox)
 		
 		hbox.Fit(self)
 		
@@ -98,8 +100,6 @@ class Downloader(wx.Frame):
 			hbox.Fit(self)
 		except:
 			pass
-		
-		self.mainpanel.SetSizer(hbox)
 		
 		# Timer
 		self.maintimer = wx.Timer(self)

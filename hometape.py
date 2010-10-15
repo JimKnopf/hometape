@@ -8,6 +8,16 @@ import gettext, locale
 import tools
 
 if __name__ == '__main__':
+	if os.name == 'nt': 
+		# windows hack for locale setting 
+		lang = os.getenv('LANG') 
+		if lang is None: 
+			default_lang, default_enc = locale.getdefaultlocale() 
+			if default_lang: 
+				lang = default_lang 
+		if lang: 
+			os.environ['LANG'] = lang
+	locale.setlocale(locale.LC_ALL, '')
 	translator = gettext.translation('hometape', os.path.join(tools.progdir(), 'locale'), fallback=True)
 	translator.install(True)
 
@@ -37,7 +47,7 @@ class HometapeFrame(wx.Frame):
 				sys.exit()
 		
 		# All the GUI stuff
-		wx.Frame.__init__(self, None, title="hometape",size=(300,500))
+		wx.Frame.__init__(self, None, title="hometape")
 		
 		menubar = wx.MenuBar()
 		
@@ -77,7 +87,10 @@ class HometapeFrame(wx.Frame):
 			_("Title"),
 			_("Title (exact)")
 		]
-		self.search_by_cb = wx.Choice(self.mainpanel, choices=search_by_choices)
+		if os.name == 'nt':
+			self.search_by_cb = wx.ComboBox(self.mainpanel, choices=search_by_choices, value=search_by_choices[0], style=wx.CB_READONLY | wx.CB_DROPDOWN)
+		else:
+			self.search_by_cb = wx.Choice(self.mainpanel, choices=search_by_choices)
 		grid.AddMany([
 			(search_label, 0, wx.ALIGN_CENTER_VERTICAL), (self.search_box, 1, wx.EXPAND),
 			(search_by_label, 0, wx.ALIGN_CENTER_VERTICAL), (self.search_by_cb, 1, wx.EXPAND)
@@ -85,7 +98,7 @@ class HometapeFrame(wx.Frame):
 		grid.AddGrowableCol(1, 1)
 		hbox1.Add(grid, 1, wx.EXPAND, 0)
 		
-		search_btn = wx.Button(self.mainpanel, id=wx.ID_FIND)
+		search_btn = wx.Button(self.mainpanel, id=wx.ID_FIND, label=_("Find"))
 		hbox1.Add(search_btn, 0, wx.EXPAND | wx.LEFT, 5)
 		
 		vbox.Add(hbox1, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM | wx.EXPAND, 2)
@@ -109,9 +122,8 @@ class HometapeFrame(wx.Frame):
 		hbox2.Add(self.dl_mp3, 1, wx.EXPAND, 0)
 		vbox.Add(hbox2, 0, wx.EXPAND | wx.ALL, 2)
 		
-		vbox.Fit(self)
-		
 		self.mainpanel.SetSizer(vbox)
+		vbox.Fit(self)
 		self.SetMinSize(self.GetSize())
 		
 		try:

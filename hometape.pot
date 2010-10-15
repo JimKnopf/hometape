@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-14 23:39+0200\n"
+"POT-Creation-Date: 2010-10-15 20:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,40 +17,44 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: hometape.py:66
+#: hometape.py:63
 msgid "&About"
 msgstr ""
 
-#: hometape.py:70
+#: hometape.py:67
 msgid "&Edit"
 msgstr ""
 
-#: hometape.py:58
+#: hometape.py:55
 msgid "&Exit"
 msgstr ""
 
-#: hometape.py:69
+#: hometape.py:66
 msgid "&File"
 msgstr ""
 
-#: hometape.py:71
+#: hometape.py:68
 msgid "&Help"
 msgstr ""
 
-#: hometape.py:62
+#: hometape.py:59
 msgid "&Preferences"
 msgstr ""
 
-#: hometape.py:88
+#: hometape.py:85
 msgid "Artist"
 msgstr ""
 
-#: hometape.py:89
+#: hometape.py:86
 msgid "Artist (exactly)"
 msgstr ""
 
-#: hometape.py:87
+#: hometape.py:84
 msgid "Artist + Title"
+msgstr ""
+
+#: config.py:85 downloader.py:73
+msgid "Close"
 msgstr ""
 
 #: downloader.py:179
@@ -78,7 +82,7 @@ msgstr ""
 msgid "Downloading \"%s\""
 msgstr ""
 
-#: hometape.py:47 hometape.py:237
+#: hometape.py:44 hometape.py:236
 msgid "Exiting"
 msgstr ""
 
@@ -86,11 +90,15 @@ msgstr ""
 msgid "FFMpeg executable:"
 msgstr ""
 
-#: hometape.py:186
+#: hometape.py:101
+msgid "Find"
+msgstr ""
+
+#: hometape.py:185
 msgid "Flash Video"
 msgstr ""
 
-#: hometape.py:186
+#: hometape.py:185
 msgid "MP3 Audio"
 msgstr ""
 
@@ -106,7 +114,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: hometape.py:85
+#: hometape.py:82
 msgid "Search by:"
 msgstr ""
 
@@ -114,7 +122,7 @@ msgstr ""
 msgid "Search results:"
 msgstr ""
 
-#: hometape.py:83
+#: hometape.py:80
 msgid "Search:"
 msgstr ""
 
@@ -126,11 +134,11 @@ msgstr ""
 msgid "Temporary Directory:"
 msgstr ""
 
-#: hometape.py:90
+#: hometape.py:87
 msgid "Title"
 msgstr ""
 
-#: hometape.py:91
+#: hometape.py:88
 msgid "Title (exact)"
 msgstr ""
 
@@ -138,16 +146,16 @@ msgstr ""
 msgid "ffmpeg was not found. You need it to convert to mp3."
 msgstr ""
 
-#: hometape.py:47 hometape.py:237
+#: hometape.py:44 hometape.py:236
 msgid "hometape can not work without a valid configuration."
 msgstr ""
 
-#: hometape.py:198
+#: hometape.py:197
 msgid ""
 "hometape is a tool for downloading music\n"
 "videos from tape.tv."
 msgstr ""
 
-#: hometape.py:199
+#: hometape.py:198
 msgid "hometape is licensed under the MIT license for free software."
 msgstr ""

@@ -22,7 +22,7 @@ def make_default():
 	if os.name == 'nt':
 		for appname in ['rtmpdump','ffmpeg']:
 			try:
-				config[appname+'_path'] =  tools.findapp(appname+'.exe', [tools.progdir()+'\\tools\\%s\\bin'%appname])
+				config[appname+'_path'] =  tools.findapp(appname+'.exe', [tools.progdir()+'\\tooldir\\%s\\bin'%appname])
 			except tools.NotFoundError:
 				config[appname+'_path'] = ''
 		config['temp_dir'] = os.environ['TEMP']
@@ -82,12 +82,12 @@ class ConfDlg(wx.Dialog):
 		hbox.Add(self.alert, 1, wx.EXPAND, 0)
 		resetbutton = wx.Button(self.mainpanel, label=_("Reset"))
 		hbox.Add(resetbutton, 0, wx.LEFT, 5)
-		self.closebutton = wx.Button(self.mainpanel, id=wx.ID_CLOSE)
+		self.closebutton = wx.Button(self.mainpanel, id=wx.ID_CLOSE, label=_("Close"))
 		hbox.Add(self.closebutton, 0, wx.LEFT, 5)
 		vbox.Add(hbox, 0, wx.LEFT | wx.RIGHT | wx.EXPAND, 2)
 		
-		vbox.Fit(self)
 		self.mainpanel.SetSizer(vbox)
+		vbox.Fit(self)
 		
 		self.SetMinSize(self.GetSize())
 		
