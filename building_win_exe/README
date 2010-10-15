@@ -1,0 +1,15 @@
+What are these files about?
+
+"setup.py" is needed to create a Windows executable using
+py2exe (http://www.py2exe.org/). If you want to create an executable, you have
+to install py2exe and then copy this file into the main directory of
+hometape. Then you have to run this command:
+ python setup.py py2exe
+Now you have a directory called "dist", where the executable and its
+dependencies are stored.
+
+"installer.nsi" is the script file for NSIS (http://nsis.sf.net). If you have
+already created the executable file, you can generate a installer for
+hometape. But you will also need "vcredist_x86.exe" in the REDIST directory.
+You can download this file here:
+http://www.microsoft.com/downloads/details.aspx?familyid=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&displaylang=en
