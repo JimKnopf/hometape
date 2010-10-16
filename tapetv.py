@@ -4,7 +4,7 @@
 import urllib, urllib2
 import xml.etree.ElementTree as etree
 
-def _download_and_parse_xml(url, params):
+def _download_and_parse_xml(url, params, fix_raw_data=None):
 	"""This function will download and parse an XML document.
 	
 	url -- The URL which should be downloaded
@@ -22,6 +22,9 @@ def _download_and_parse_xml(url, params):
 		urlhandle = urllib2.urlopen(url)
 		rawxml = urlhandle.read()
 		urlhandle.close()
+		
+		if fix_raw_data is not None:
+			rawxml = fix_raw_data(rawxml)
 	
 		# ...and parse!
 		return etree.fromstring(rawxml)
@@ -75,6 +78,12 @@ def search(query, filterby):
 	]
 	return filter(filters[filterby], videos)
 
+def fix_buggy_xml(rawxml):
+	"""Fixing the buggy XML, that tape.tv delivers"""
+	for old, new in [('<url>','<url><![CDATA['), ('</url>',']]></url>'), ('<image>','<image><![CDATA['), ('</image>',']]></image>')]:
+		rawxml = rawxml.replace(old, new)
+	return rawxml
+
 def streaminfo(video_id):
 	"""Get informations about the stream for the video,which has the id video_id.
 	
@@ -94,7 +103,8 @@ def streaminfo(video_id):
 			('telly', 'tapetv'),
 			('videoId', video_id)
 			
-		]
+		],
+		fix_buggy_xml
 	)
 	
 	if results == None:
