@@ -1,7 +1,7 @@
 from distutils.core import setup
 import py2exe
 setup(name="hometape",
-      version='0.3.7',
+      version='0.3.8',
       windows = [
         {
             "script": "hometape.py",
